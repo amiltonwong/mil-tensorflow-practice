@@ -1,0 +1,6 @@
+model_checkpoint_path: "sphere-400"
+all_model_checkpoint_paths: "sphere-0"
+all_model_checkpoint_paths: "sphere-100"
+all_model_checkpoint_paths: "sphere-200"
+all_model_checkpoint_paths: "sphere-300"
+all_model_checkpoint_paths: "sphere-400"
