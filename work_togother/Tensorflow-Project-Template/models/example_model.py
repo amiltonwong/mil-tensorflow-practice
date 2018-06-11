@@ -8,7 +8,7 @@ class ExampleModel(BaseModel):
         self.build_model()
         self.init_saver()
 
-    def build_model(self):
+    def build_model(self): # 建立inference的過程
         self.is_training = tf.placeholder(tf.bool)
 
         self.x = tf.placeholder(tf.float32, shape=[None] + self.config.state_size)
@@ -19,11 +19,13 @@ class ExampleModel(BaseModel):
         d2 = tf.layers.dense(d1, 10, name="dense2")
 
         with tf.name_scope("loss"): # not variable_scope, not related to tf.Variable
+            # construct loss
             self.cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=self.y, logits=d2)) # 對batch求平均(mean)
+            # pass loss to optimizer
             self.train_step = tf.train.AdamOptimizer(self.config.learning_rate).minimize(self.cross_entropy,
                                                                                          global_step=self.global_step_tensor)
             correct_prediction = tf.equal(tf.argmax(d2, 1), tf.argmax(self.y, 1))
-            self.accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+            self.accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32)) # compute accuracy
 
 
     def init_saver(self):
